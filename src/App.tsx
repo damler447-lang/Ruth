@@ -177,7 +177,8 @@ export default function App() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('https://dayfarm2.amocrm.ru/api/v4/leads/complex', {
+     const response = await fetch('https://amocrm.ru', {
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
