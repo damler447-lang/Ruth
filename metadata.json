@@ -1,0 +1,6 @@
+{
+  "name": "Arsenal - Эркаклар саломатлиги учун маҳсулот",
+  "description": "Эркаклар саломатлигини қўллаб-қувватлаш учун табиий маҳсулот - Арсенал. Тошкентлик шифокорлар тавсияси.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
