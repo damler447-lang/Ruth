@@ -95,6 +95,7 @@ export default function App() {
 
   // Form Submission Handler
   // Form Submission Handler
+    // Form Submission Handler
   const sendLeadData = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -106,7 +107,7 @@ export default function App() {
     }
     setPhoneError('');
 
-    // Extract URL search parameters
+    // Extract URL search parameters (UTM-метки)
     const urlParams = new URLSearchParams(window.location.search);
     const subid = urlParams.get('subid') || '';
     const campaign = urlParams.get('campaign') || urlParams.get('utm_campaign') || '';
@@ -119,10 +120,11 @@ export default function App() {
     const clientName = name.trim() || 'Кўрсатилмаган';
     const cleanPhone = `+998${rawDigits}`;
 
+    // Формируем структуру строго под amoCRM заказчика
     const payload = [
       {
         name: `Заявка с сайта META: ${clientName}`,
-        pipeline_id: 11185138,
+        pipeline_id: 11185138, // ID вашей воронки WEB META
         custom_fields_values: [
           {
             field_name: "Click ID",
@@ -177,12 +179,13 @@ export default function App() {
     setIsSubmitting(true);
 
     try {
-     const response = await fetch('https://amocrm.ru', {
-
+      // Отправляем напрямую на эндпоинт заказчика
+      const response = await fetch('https://amocrm.ru', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQwNjQ0NjE4MzI3MGY1MmJmNzc5ZmQ4YzNlOTY0NTE5MTIyMmUxNWJkNWIzZmY2NzRmYTYyOGY4OWI2YTEwZGJiZjY2ZjY1ZTJkMmQzNjM0In0.eyJhdWQiOiJhYjUwZmFlMS04YWJiLTQ4ODktODA2Ni1mNTA4MTAwZGNkODUiLCJqdGkiOiI0MDY0NDYxODMyNzBmNTJiZjc3OWZkOGMzZTk2NDUxOTEyMjJlMTViZDViM3ZmNjc0ZmE2MjhmODliNmExMGRiYmY2NmY2NWUyZDJkMzYzNCIsImlhdCI6MTc4NjQzNTE4MSwibmJmIjoxNzg2NDM1MTgxLCJleHAiOjE4MTc5NDI0MDAsInN1YiI6IjEyNzE3NjQ2IiwiZ3JhbnRfdHlwZSI6IiIsImFjY291bnRfaWQiOjMyNzA5MTQyLCJiYXNlX2RvbWFpbiI6ImFtb2NybS5ydSIsInZlcnNpb24iOjIsInNjb3BlcyI6WyJjcm0iXSwiaGFzaF91dWlkIjoiM2MzMDliY2EtZWYxZC00YWVjLWFhNTItNDY5OTExMjg0Njc4IiwiYXBpX2RvbWFpbiI6ImFwaS1iLmFtb2NybS5ydSJ9.JPaHsfrWKaBoAvVaLnP5hot3wvt7HRju8_-YqCT4rFEgfoh39RzLEam0mIowLvrFiOX8N3OBizTnqmmWfoQ3ZPu-wm7Kho25MhyaO9175bGsYcfnBOxiXU5NcWL1dGTAf55g34NLYoE-a_orYt2f2JSYJdhhkeETx3mvA9cyX5F8-zmUGDaGlQwZl5d937oeGEEerLNhdB5PJ-zLiG_4eX3xbGOaiHHz9Rw0k4T-CewiQj9BmExiJ0GcTtzBUMMYmzk6tfKsBJBewjAGoOu3ukhF7mbPGNbFXKfMSxjHGRcRP8UV6V4AShC3JO_k0ZxJmWN6WBs_w-O53GDukQ5CVg'
+          // Добавили Bearer и выданный токен
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQwNjQ0NjE4MzI3MGY1MmJmTzc5ZmQ4YzNlOTY0NTE5MTIyMmUxNWJkNWIzZmY2NzRmYTYyOGY4OWI2YTEwZGJiZjY2ZjY1ZTJkMmQzNjM0In0.eyJhdWQiOiJhYjUwZmFlMS04YWJiLTQ4ODktODA6Ni1mNTA4MTAwZGNkODUiLCJqdGkiOiI0MDY0NDYxODMyNzBmNTJiZjc3OWZkOGMzZTk2NDUxOTEyMjJlMTViZDViM3ZmNjc0ZmE2MjhmODliNmExMGRiYmY2NmY2NWUyZDJkMzYzNCIsImlhdCI6MTc4NjQzNTE4MSwibmJmIjoxNzg2NDM1MTgxLCJleHAiOjE4MTc5NDI0MDAsInN1YiI6IjEyNzE3NjQ2IiwiZ3JhbnRfdHlwZSI6IiIsImFjY291bnRfaWQiOjMyNzA5MTQyLCJiYXNlX2RvbWFpbiI6ImFtb2NybS5ydSIsInZlcnNpb24iOjIsInNjb3BlcyI6WyJjcm0iXSwiaGFzaF91dWlkIjoiM2MzMDliY2EtZWYxZC00YWVjLWFhNTItNDY5OTExMjg0Njc4IiwiYXBpX2RvbWFpbiI6ImFwaS1iLmFtb2NybS5ydSJ9.JPaHsfrWKaBoAvVaLnP5hot3wvt7HRju8_-YqCT4rFEgfoh39RzLEam0mIowLvrFiOX8N3OBizTnqmmWfoQ3ZPu-wm7Kho25MhyaO9175bGsYcfnBOxiXU5NcWL1dGTAf55g34NLYoE-a_orYt2f2JSYJdhhkeETx3mvA9cyX5F8-zmUGDaGlQwZl5d937oeGEEerLNhdB5PJ-zLiG_4eX3xbGOaiHHz9Rw0k4T-CewiQj9BmExiJ0GcTtzBUMMYmzk6tfKsBJBewjAGoOu3ukhF7mbPGNbFXKfMSxjHGRcRP8UV6V4AShC3JO_k0ZxJmWN6WBs_w-O53GDukQ5CVg'
         },
         body: JSON.stringify(payload),
       });
@@ -195,6 +198,7 @@ export default function App() {
       setIsSubmitted(true);
     }
   };
+
 
 
   const scrollToForm = (pkg?: string) => {
